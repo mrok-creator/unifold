@@ -5,6 +5,9 @@
 ```ts
 
 // @public
+export function canonicalKey(input: string): string;
+
+// @public
 export interface NormalizationChange {
     // (undocumented)
     readonly after: string;
