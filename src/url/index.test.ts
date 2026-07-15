@@ -110,6 +110,17 @@ describe('normalizeUrl: percent-encoding-uppercase', () => {
   ])('$name', ({ input, expected }) => {
     expect(normalizeUrl(input).value).toBe(expected);
   });
+
+  it.each([
+    { name: 'mixed-case %aF → %AF', input: 'https://a.com/x%aFy', expected: 'https://a.com/x%AFy' },
+    { name: 'mixed-case %Af → %AF', input: 'https://a.com/x%Afy', expected: 'https://a.com/x%AFy' },
+  ])('$name', ({ input, expected }) => {
+    const result = normalizeUrl(input);
+    expect(result.value).toBe(expected);
+    expect(result.changes).toEqual([
+      { rule: 'percent-encoding-uppercase', before: input, after: expected },
+    ]);
+  });
 });
 
 describe('normalizeUrl: collapse-slashes', () => {

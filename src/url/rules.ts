@@ -5,7 +5,7 @@ import { parseUrl, serializeUrl, splitAuthority } from './parse.js';
 import type { UrlParts } from './parse.js';
 
 const DEFAULT_PORTS: Readonly<Record<string, string>> = { http: ':80', https: ':443' };
-const PERCENT_TRIPLET_PATTERN = /%[0-9a-f]{2}/g;
+const PERCENT_TRIPLET_PATTERN = /%[0-9a-fA-F]{2}/g;
 const SLASH_RUN_PATTERN = /\/{2,}/g;
 
 function withAuthority(
