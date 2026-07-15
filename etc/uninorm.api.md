@@ -29,6 +29,9 @@ export interface NormalizationResult {
 export type RuleId = SanitizeRuleId | UrlRuleId;
 
 // @public
+export function sanitize(input: string): NormalizationResult;
+
+// @public
 export type SanitizeRuleId = 'homoglyph' | 'bom' | 'control' | 'zero-width' | 'trim' | 'collapse-spaces';
 
 // @public
