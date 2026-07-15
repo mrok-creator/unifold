@@ -15,9 +15,21 @@ describe('normalizeUrl: trim', () => {
 
 describe('normalizeUrl: invisible', () => {
   it('strips BOM/control/zero-width outright', () => {
-    const result = normalizeUrl('﻿https://exam​ple.com/a');
+    const result = normalizeUrl('\uFEFFhttps://exam\u200Bple.com/a');
     expect(result.value).toBe('https://example.com/a');
     expect(result.changes.map((c) => c.rule)).toEqual(['invisible']);
+  });
+
+  it('strips an interior control char with a single invisible change', () => {
+    const result = normalizeUrl('https://exa\u0000mple.com/x');
+    expect(result.value).toBe('https://example.com/x');
+    expect(result.changes).toEqual([
+      {
+        rule: 'invisible',
+        before: 'https://exa\u0000mple.com/x',
+        after: 'https://example.com/x',
+      },
+    ]);
   });
 });
 

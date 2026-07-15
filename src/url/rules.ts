@@ -1,6 +1,6 @@
 import type { UrlRuleId } from '../types.js';
 import type { RuleUnit } from '../shared/rule-pipeline.js';
-import { stripBom, stripZeroWidth, trimEdges } from '../shared/folds.js';
+import { stripBom, stripControl, stripZeroWidth } from '../shared/folds.js';
 import { parseUrl, serializeUrl, splitAuthority } from './parse.js';
 import type { UrlParts } from './parse.js';
 
@@ -23,11 +23,20 @@ function withPath(input: string, transform: (path: string) => string): string {
   return serializeUrl({ ...parts, path: transform(parts.path) });
 }
 
-const trimRule: RuleUnit<UrlRuleId> = { id: 'trim', apply: trimEdges };
+// Edge trim limited to ASCII whitespace + NBSP: native trim() would eat
+// U+FEFF, which the invisible rule must audit.
+const LEADING_EDGE_WHITESPACE = /^[ \t\r\n\u00A0]+/;
+const TRAILING_EDGE_WHITESPACE = /[ \t\r\n\u00A0]+$/;
+
+function urlTrim(input: string): string {
+  return input.replace(LEADING_EDGE_WHITESPACE, '').replace(TRAILING_EDGE_WHITESPACE, '');
+}
+
+const trimRule: RuleUnit<UrlRuleId> = { id: 'trim', apply: urlTrim };
 
 const invisibleRule: RuleUnit<UrlRuleId> = {
   id: 'invisible',
-  apply: (input) => stripZeroWidth(stripBom(input)),
+  apply: (input) => stripZeroWidth(stripControl(stripBom(input))),
 };
 
 const schemeLowercaseRule: RuleUnit<UrlRuleId> = {
@@ -73,8 +82,8 @@ const collapseSlashesRule: RuleUnit<UrlRuleId> = {
 
 /** RFC 3986-safe rules in spec order. Query, fragment and www are never touched. */
 export const urlRules: readonly RuleUnit<UrlRuleId>[] = [
-  invisibleRule,
   trimRule,
+  invisibleRule,
   schemeLowercaseRule,
   hostLowercaseRule,
   defaultPortRule,
