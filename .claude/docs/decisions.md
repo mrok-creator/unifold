@@ -11,17 +11,17 @@ Append-only architectural decision log. Each entry: decision + short reason.
 5. Homoglyph folding runs first in the `sanitize` pipeline — Cyrillic look-alikes must be normalized to Latin before any other cleanup rule (BOM/control/zero-width/trim/collapse) can reason about the string correctly.
 6. Workflow (brainstorming, spec, planning, TDD loop, subagent execution, code review) is delegated entirely to the Superpowers plugin — this repo's own rules cover only domain constraints, never process.
 
-## Locked architecture decisions (this plan)
+## Locked domain decisions (this plan)
 
-7. Domain modules are fixed at four: `sanitize`, `canonical-key`, `url`, `suspicious-domain`, each owning exactly one normalization concern; cross-cutting logic lives in `shared` only.
-8. No cross-imports between domain modules — if two domain modules need the same logic, it moves to `shared`, never gets duplicated or imported sideways.
-9. Pure functions only: no classes with mutable state, no singletons, no module-level mutable variables. Every public function is `(input) => output`.
-10. Zero runtime dependencies (`dependencies` stays empty in `package.json`); everything needed at runtime is either hand-written or generated+committed data.
-11. Tree-shakeable package: named exports only, `sideEffects: false`, no side effects at import time.
-12. Rule application levels are fixed by the domain spec: storage-level rules mutate the persisted value; matching-only folds affect the canonical key only; URL normalization touches only RFC 3986-guaranteed-equivalent parts.
-13. Normalization concerns are implemented as an ordered pipeline of small pure rule units sharing one shape (`RuleUnit<Id>`); adding a concern means adding a unit and registering it in the module's order, never editing unrelated units.
-14. Two-track application is enforced by construction: storage-track rules (`sanitize`, `normalizeUrl`) and matching-track folds (`canonicalKey`) are separate rule lists — a rule declares its track by which module registers it and is never shared across tracks.
-15. Fail-closed on safety, fail-open on cleanup: `suspiciousDomain` only flags; `sanitize`/`normalizeUrl` apply only transforms guaranteed safe by spec/RFC, and malformed input is returned as-is rather than thrown on.
+7. Control characters (U+0000–U+001F, U+007F) are replaced with a space in `sanitize` (spec example "Offer\x00A → Offer A"); the later trim/collapse-spaces rules clean up. BOM and zero-width chars are removed outright.
+8. `sanitize`'s trim uses native `String.prototype.trim()` — edge whitespace incl. NBSP is safe cleanup; interior NBSP is untouched at storage level (matching-only concern).
+9. `collapse-spaces` collapses runs of U+0020 only (post control→space replacement); NBSP runs are never collapsed at storage level.
+10. Percent-encoding uppercasing and `//` collapsing apply to the URL path component only — query and fragment stay byte-for-byte (they may carry functional payload).
+11. Schemeless URLs (`example.com:80/x`, `Example.COM/Path`) are supported by heuristic: the first segment is treated as an authority when it contains a dot or a numeric port; schemeless default-port stripping removes both :80 and :443. Opaque-scheme URLs (`mailto:`) get scheme lowercasing only.
+12. `www.`-prefix and trailing slash are never touched (TBD in the domain spec — deliberately out of v0.1).
+13. Confusables scope: single-codepoint sources in Cyrillic blocks U+0400–U+04FF/U+0500–U+052F, single-codepoint targets in Basic Latin letters A–Z/a–z only (digit look-alikes excluded); one-way Cyrillic→Latin; Unicode version pinned 16.0.0.
+14. Matching-only folds (canonical key): NBSP→space; dashes U+2010–U+2015, U+2212, `-`, `_` → space; curly/angle quotes → straight `'`/`"`; locale-independent `toLowerCase()`.
+15. `suspiciousDomain` treats its input as a host string as-given (no URL parsing) and flags when ≥2 distinct letter scripts (latin/cyrillic/greek) are present.
 
 ## Decisions made during implementation
 
