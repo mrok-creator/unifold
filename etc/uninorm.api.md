@@ -41,6 +41,9 @@ export function sanitize(input: string): NormalizationResult;
 export type SanitizeRuleId = 'homoglyph' | 'bom' | 'control' | 'zero-width' | 'trim' | 'collapse-spaces';
 
 // @public
+export function suspiciousDomain(host: string): SuspiciousDomainResult;
+
+// @public
 export interface SuspiciousDomainResult {
     // (undocumented)
     readonly host: string;
