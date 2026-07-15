@@ -18,5 +18,5 @@ export type {
 // Domain modules (implemented in M2–M5) are re-exported here:
 export { sanitize } from './sanitize/index.js';
 export { canonicalKey } from './canonical-key/index.js';
-// export { normalizeUrl } from './url/index.js';
+export { normalizeUrl } from './url/index.js';
 // export { suspiciousDomain } from './suspicious-domain/index.js';

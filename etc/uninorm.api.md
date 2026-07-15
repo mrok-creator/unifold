@@ -29,6 +29,9 @@ export interface NormalizationResult {
 }
 
 // @public
+export function normalizeUrl(input: string): NormalizationResult;
+
+// @public
 export type RuleId = SanitizeRuleId | UrlRuleId;
 
 // @public
