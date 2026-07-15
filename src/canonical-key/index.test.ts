@@ -36,14 +36,14 @@ describe('canonicalKey: quote fold', () => {
 
 describe('canonicalKey: nbsp fold', () => {
   it('folds NBSP to space and collapses', () => {
-    expect(canonicalKey('Offer A')).toBe('offer a');
+    expect(canonicalKey('Offer\u00A0\u00A0A')).toBe('offer a');
   });
 });
 
 describe('canonicalKey: includes storage folds', () => {
   it.each([
     { name: 'homoglyphs folded', input: 'Рrіme', expected: 'prime' },
-    { name: 'BOM + control + zero-width + trim + collapse', input: '﻿ Offer​', expected: 'offer' },
+    { name: 'BOM + control + zero-width + trim + collapse', input: '\uFEFF Offer\u200B', expected: 'offer' },
     {
       name: 'spec equivalence: Offer-A ≈ Offer_A ≈ Offer A ≈ offer a',
       input: 'OFFER-A',
