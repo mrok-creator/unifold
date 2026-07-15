@@ -1,0 +1,71 @@
+{
+  "name": "@scope/uninorm",
+  "version": "0.0.0",
+  "description": "Zero-dependency Unicode normalization for storage sanitize, canonical matching keys and safe URL normalization.",
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:exports": "publint --strict && attw --pack .",
+    "api:check": "api-extractor run --verbose",
+    "api:update": "api-extractor run --local --verbose",
+    "verify": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build && pnpm run check:exports",
+    "changeset": "changeset",
+    "release": "changeset publish"
+  },
+  "keywords": [
+    "unicode",
+    "normalization",
+    "confusables",
+    "homoglyph",
+    "canonical",
+    "url",
+    "sanitize"
+  ],
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.17.0",
+    "@changesets/cli": "^2.27.0",
+    "@eslint/js": "^9.15.0",
+    "@microsoft/api-extractor": "^7.47.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.15.0",
+    "publint": "^0.2.0",
+    "vitest": "^2.1.0"
+  }
+}
