@@ -15,7 +15,7 @@ describe('foldHomoglyphs', () => {
     { name: 'pure latin unchanged', input: 'Paypal', expected: 'Paypal' },
     { name: 'unmapped cyrillic passes through', input: 'Ж', expected: 'Ж' },
     { name: 'surrogate pair preserved', input: '\u{1F600}а', expected: '\u{1F600}a' },
-    { name: 'combining mark untouched', input: 'é', expected: 'é' },
+    { name: 'combining mark untouched', input: 'e\u0301', expected: 'e\u0301' },
     { name: 'empty', input: '', expected: '' },
   ])('$name', ({ input, expected }) => {
     expect(foldHomoglyphs(input)).toBe(expected);
@@ -70,7 +70,11 @@ describe('collapseSpaces', () => {
   it.each([
     { name: 'double space', input: 'Offer  A', expected: 'Offer A' },
     { name: 'many runs', input: 'a   b  c', expected: 'a b c' },
-    { name: 'NBSP is not collapsed (matching-only concern)', input: 'a\u00A0\u00A0b', expected: 'a\u00A0\u00A0b' },
+    {
+      name: 'NBSP is not collapsed (matching-only concern)',
+      input: 'a\u00A0\u00A0b',
+      expected: 'a\u00A0\u00A0b',
+    },
   ])('$name', ({ input, expected }) => {
     expect(collapseSpaces(input)).toBe(expected);
   });
