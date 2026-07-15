@@ -2,7 +2,6 @@ import type { NormalizationResult } from '../types.js';
 import { runRulePipeline } from '../shared/rule-pipeline.js';
 import { sanitizeRules } from './rules.js';
 
-/* eslint-disable no-irregular-whitespace */
 /**
  * Storage-level string cleanup. Applies, in order: Cyrillic→Latin homoglyph
  * folding, BOM removal, control-char→space replacement, zero-width removal,
@@ -11,11 +10,10 @@ import { sanitizeRules } from './rules.js';
  *
  * @example
  * ```ts
- * sanitize('﻿ Offer  A ');
+ * sanitize('\uFEFF Offer  A ');
  * // { value: 'Offer A', changed: true, changes: [...] }
  * ```
  */
-/* eslint-enable no-irregular-whitespace */
 export function sanitize(input: string): NormalizationResult {
   const { value, changes } = runRulePipeline(input, sanitizeRules);
   return { value, changed: changes.length > 0, changes };
