@@ -42,7 +42,7 @@ canonicalKey('Offer-A') === canonicalKey('offer_a'); // true
 
 ### `normalizeUrl` — RFC 3986-safe URL normalization
 
-Applies only transforms RFC 3986 guarantees are equivalence-preserving: trim + invisible-character removal, scheme/host lowercasing, default-port stripping, percent-encoding hex uppercasing (path only), and duplicate-slash collapsing (path only). Malformed input is returned as-is (with the safe text cleanups applied) — this function never throws.
+Applies only transforms that are RFC 3986-safe or explicitly spec-mandated (duplicate-slash collapse in paths): trim + invisible-character removal, scheme/host lowercasing, default-port stripping, percent-encoding hex uppercasing (path only), and duplicate-slash collapsing (path only). Malformed input is returned as-is (with the safe text cleanups applied) — this function never throws.
 
 ```ts
 import { normalizeUrl } from '@scope/uninorm';
@@ -70,10 +70,10 @@ suspiciousDomain('pаypal.com');
 | ----- | ----------------- | --------------------------------------------------------------------------------------------------------- |
 | 1     | `homoglyph`       | Folds single-codepoint Cyrillic look-alikes to their Basic Latin letter (generated data, Unicode 16.0.0). |
 | 2     | `bom`             | Removes a byte-order-mark (U+FEFF) anywhere in the string.                                                |
-| 3     | `control`         | Replaces C0/C1 control characters with a space.                                                           |
+| 3     | `control`         | Replaces control characters (U+0000–U+001F, U+007F) with a space.                                         |
 | 4     | `zero-width`      | Removes zero-width characters (e.g. ZWSP, ZWJ, ZWNJ).                                                     |
 | 5     | `trim`            | Trims leading/trailing whitespace.                                                                        |
-| 6     | `collapse-spaces` | Collapses runs of whitespace to a single space.                                                           |
+| 6     | `collapse-spaces` | Collapses runs of ASCII spaces (U+0020) to a single space; NBSP is never collapsed.                       |
 
 `canonicalKey` runs all six of the above, then adds case folding, dash/underscore-to-space folding, and typographic-quote-to-straight-quote folding, in that order, before a final trim + collapse.
 

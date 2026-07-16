@@ -43,7 +43,11 @@ describe('canonicalKey: nbsp fold', () => {
 describe('canonicalKey: includes storage folds', () => {
   it.each([
     { name: 'homoglyphs folded', input: 'Рrіme', expected: 'prime' },
-    { name: 'BOM + control + zero-width + trim + collapse', input: '\uFEFF Offer\u200B', expected: 'offer' },
+    {
+      name: 'BOM + control + zero-width + trim + collapse',
+      input: '\uFEFF\u0000 Offer\u200B',
+      expected: 'offer',
+    },
     {
       name: 'spec equivalence: Offer-A ≈ Offer_A ≈ Offer A ≈ offer a',
       input: 'OFFER-A',

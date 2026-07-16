@@ -121,6 +121,13 @@ describe('normalizeUrl: percent-encoding-uppercase', () => {
       { rule: 'percent-encoding-uppercase', before: input, after: expected },
     ]);
   });
+
+  it('opaque scheme body %2f untouched', () => {
+    const result = normalizeUrl('urn:example:a%2fb');
+    expect(result.value).toBe('urn:example:a%2fb');
+    expect(result.changed).toBe(false);
+    expect(result.changes).toEqual([]);
+  });
 });
 
 describe('normalizeUrl: collapse-slashes', () => {
@@ -157,6 +164,20 @@ describe('normalizeUrl: collapse-slashes', () => {
     },
   ])('$name', ({ input, expected }) => {
     expect(normalizeUrl(input).value).toBe(expected);
+  });
+
+  it.each([
+    { name: 'opaque scheme body // untouched', input: 'mailto:a//b', expected: 'mailto:a//b' },
+    {
+      name: 'data URI body untouched',
+      input: 'data:text/plain,a//b',
+      expected: 'data:text/plain,a//b',
+    },
+  ])('$name', ({ input, expected }) => {
+    const result = normalizeUrl(input);
+    expect(result.value).toBe(expected);
+    expect(result.changed).toBe(false);
+    expect(result.changes).toEqual([]);
   });
 });
 

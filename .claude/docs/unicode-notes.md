@@ -20,5 +20,5 @@
 
 - Astral-plane code points (outside the BMP) are iterated correctly via `for...of` string iteration (surrogate-pair aware) in `shared/script-detect.ts` and rule tables.
 - Combining characters are tested as decomposed sequences (base + combining mark), not just precomposed forms, so folds don't accidentally merge or drop a combining mark.
-- Zero-width characters, BOM, and C0/C1 control characters are covered as explicit table cases per rule, always written as `\uXXXX` escapes in source (never raw bytes — raw invisible bytes previously caused git to treat a test file as binary).
+- Zero-width characters, BOM, and control characters (U+0000–U+001F, U+007F) are covered as explicit table cases per rule, always written as `\uXXXX` escapes in source (never raw bytes — raw invisible bytes previously caused git to treat a test file as binary).
 - Mixed-script detection (`shared/script-detect.ts`) currently distinguishes `latin` / `cyrillic` / `greek`; scripts outside these three ranges are not detected as a distinct script (letters outside all three ranges are simply ignored for mixed-script purposes) — this is the current scope, not a bug.

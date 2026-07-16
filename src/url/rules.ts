@@ -20,6 +20,8 @@ function withAuthority(
 
 function withPath(input: string, transform: (path: string) => string): string {
   const parts = parseUrl(input);
+  // Opaque bodies (mailto:, data:, urn:) are not hierarchical paths — only the scheme is safe to normalize.
+  if (parts.separator === ':') return input;
   return serializeUrl({ ...parts, path: transform(parts.path) });
 }
 
