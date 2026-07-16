@@ -52,4 +52,4 @@ On a clean clone: `pnpm install`, then `pnpm verify` — green. The API report a
 
 ## Pre-release (manual, owner-only)
 
-Package name: `unifold` (npm). The release checklist lives in `.dev/BACKLOG.md`.
+Package name: `@mrok-creator/unifold` (npm; scoped — unscoped `unifold` is blocked as too similar to `unified`). The release checklist lives in `.dev/BACKLOG.md`.
