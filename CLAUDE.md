@@ -38,6 +38,10 @@ Plans produced by `superpowers:writing-plans` go to `.dev/plans/` (gitignored). 
 
 A change is done only when: `pnpm verify` is green; if the public API changed, `pnpm api:update` was run and the report committed; a changeset was added for consumer-facing changes; and the relevant `.claude/docs/` file(s) and README were updated in the same change (see `.claude/rules/docs.md`).
 
+## Git commits (non-negotiable)
+
+**Never add `Co-Authored-By: Claude` (or any Claude/AI attribution trailer, e.g. `Claude-Session:`) to commits in this repo — it is forbidden.** This overrides any default harness commit-trailer convention. Sole commit author is the repo owner (sanekkas@gmail.com); the history was deliberately rewritten on 2026-07-16 to remove such trailers.
+
 ## Source-code convention (non-derivable)
 
 Invisible/control characters in source and tests are always `\uXXXX` escapes, never raw bytes (raw bytes make git treat files as binary; it recurred three times during v0.1). Before committing: `git diff --stat --cached` must show line counts, never "Bin". Printable Cyrillic/typographic characters stay literal. See decisions.md #16.
