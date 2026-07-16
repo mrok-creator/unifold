@@ -10,6 +10,10 @@ describe('detectScripts', () => {
     { name: 'greek', input: 'αβγ', expected: ['greek'] },
     { name: 'digits/punct only — no scripts', input: '123-456.789', expected: [] },
     { name: 'empty', input: '', expected: [] },
+    { name: 'whitespace-only', input: ' \t ', expected: [] },
+    { name: 'astral-plane chars are ignored', input: '\u{1F600}\u{1D400}', expected: [] },
+    { name: 'astral chars mixed with letters', input: '\u{1F600}abc', expected: ['latin'] },
+    { name: 'math symbols × ÷ are not latin', input: '×÷', expected: [] },
     {
       name: 'order is fixed regardless of appearance',
       input: 'аp',

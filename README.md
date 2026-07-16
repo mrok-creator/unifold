@@ -62,6 +62,10 @@ suspiciousDomain('pаypal.com');
 // { host: 'pаypal.com', suspicious: true, reason: 'mixed-script', scripts: ['latin', 'cyrillic'] }
 ```
 
+> **Note:** pass the decoded Unicode host. Punycode (`xn--`) labels are not
+> decoded, so an encoded look-alike domain will not be flagged. Opt-in
+> punycode decoding is planned for a future release.
+
 ## Rule tables
 
 ### `sanitize` rule order (storage-level)

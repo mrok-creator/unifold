@@ -8,6 +8,11 @@ import { detectScripts } from '../shared/script-detect.js';
  *
  * @param host - The host/domain to inspect, as-is (no URL parsing is applied).
  *
+ * @remarks
+ * Pass the decoded Unicode host: punycode (`xn--`) labels are NOT decoded, so
+ * an encoded look-alike domain will not be flagged. Opt-in punycode decoding
+ * is planned for a future release.
+ *
  * @example
  * ```ts
  * suspiciousDomain('pаypal.com');

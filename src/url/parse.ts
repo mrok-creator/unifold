@@ -33,7 +33,13 @@ function takeUntilPathQueryOrFragment(input: string): string {
   return end === -1 ? input : input.slice(0, end);
 }
 
-function splitTail(rest: string): { path: string; query: string; fragment: string } {
+interface TailParts {
+  readonly path: string;
+  readonly query: string;
+  readonly fragment: string;
+}
+
+function splitTail(rest: string): TailParts {
   const hashIndex = rest.indexOf('#');
   const fragment = hashIndex === -1 ? '' : rest.slice(hashIndex);
   const beforeFragment = hashIndex === -1 ? rest : rest.slice(0, hashIndex);

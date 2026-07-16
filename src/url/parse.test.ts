@@ -119,6 +119,8 @@ describe('parseUrl', () => {
     '#only-fragment',
     '',
     'weird stuff ​ here',
+    'https://пример.укр/шлях?q=значення#фраґмент',
+    'https://a.com/\u{1F600}/é?x=﻿',
   ])('round-trips %j', (input) => {
     expect(serializeUrl(parseUrl(input))).toBe(input);
   });
