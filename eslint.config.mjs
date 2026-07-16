@@ -7,6 +7,7 @@ export default tseslint.config(
     ignores: [
       'dist',
       'coverage',
+      '.claude/worktrees/**',
       'src/generated/**',
       'scripts/**',
       'eslint.config.mjs',
