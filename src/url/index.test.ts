@@ -60,6 +60,13 @@ describe('normalizeUrl: host-lowercase', () => {
       input: 'https://UserName@Example.com/',
       expected: 'https://UserName@example.com/',
     },
+    {
+      // Documents current behavior: full Unicode lowercasing, not ASCII-only —
+      // Turkish İ (U+0130) folds to i + combining dot above (U+0069 U+0307).
+      name: 'exotic unicode host is fully lowercased',
+      input: 'https://\u0130.com/x',
+      expected: 'https://i\u0307.com/x',
+    },
   ])('$name', ({ input, expected }) => {
     expect(normalizeUrl(input).value).toBe(expected);
   });

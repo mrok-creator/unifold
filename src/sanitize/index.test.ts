@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import type { SanitizeRuleId } from '../types.js';
 import { sanitize } from './index.js';
 
 interface RuleCase {
   readonly name: string;
   readonly input: string;
   readonly expected: string;
-  readonly changes: readonly { rule: string; before: string; after: string }[];
+  readonly changes: readonly { rule: SanitizeRuleId; before: string; after: string }[];
 }
 
 function expectRuleResult({ input, expected, changes }: RuleCase): void {

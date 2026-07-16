@@ -22,3 +22,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run verify
       - run: pnpm run api:check
+
+  # Detects drift between the committed confusables data and the pinned
+  # Unicode version. Separate job: a unicode.org outage must not block verify.
+  confusables-drift:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run generate:confusables
+      - run: git diff --exit-code src/generated/

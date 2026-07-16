@@ -27,6 +27,9 @@ function parseConfusables(text) {
   for (const rawLine of text.split('\n')) {
     const line = rawLine.split('#')[0].trim();
     if (!line) continue;
+    // fields[2] (confusable type: MA/SL/SA/ML) is intentionally ignored — the
+    // Cyrillic-source + Basic-Latin-letter-target filters below already
+    // guarantee cross-script pairs, so the type column adds no discrimination.
     const fields = line.split(';').map((f) => f.trim());
     if (fields.length < 2) continue;
     const sourceCps = fields[0].split(/\s+/).map((h) => Number.parseInt(h, 16));

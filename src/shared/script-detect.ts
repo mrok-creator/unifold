@@ -9,6 +9,8 @@ interface ScriptRange {
 const SCRIPT_RANGES: readonly ScriptRange[] = [
   {
     script: 'latin',
+    // The Latin-1 block is split in two to exclude × (U+00D7) and ÷ (U+00F7),
+    // which are math symbols, not letters — do not merge these ranges.
     ranges: [
       [0x0041, 0x005a],
       [0x0061, 0x007a],
@@ -49,8 +51,10 @@ function scriptOf(codePoint: number): DetectedScript | undefined {
 export function detectScripts(input: string): readonly DetectedScript[] {
   const found = new Set<DetectedScript>();
   for (const char of input) {
-    const codePoint = char.codePointAt(0);
-    if (codePoint === undefined) continue;
+    // `for...of` never yields an empty string, so codePointAt(0) is always
+    // defined — the fallback only satisfies the type checker.
+    /* v8 ignore next */
+    const codePoint = char.codePointAt(0) ?? 0;
     const script = scriptOf(codePoint);
     if (script !== undefined) found.add(script);
   }
