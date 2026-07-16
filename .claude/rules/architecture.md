@@ -5,7 +5,7 @@
 - **Pure functions only.** No classes with mutable state, no singletons, no module-level mutable variables. Every public function is a pure `(input) => output`.
 - **Zero runtime dependencies.** `dependencies` in `package.json` stays empty. Everything is `devDependencies`. The homoglyph map is generated at build time into `src/generated/` and committed — not pulled from a runtime package.
 - **Tree-shakeable.** Named exports only, no side effects at import time (`sideEffects: false`).
-- **Rule application levels are fixed by the spec** (`.dev/requirements.md`): storage-level rules mutate the value; matching-only rules affect the canonical key only; URL normalization touches only RFC 3986-guaranteed-equivalent parts.
+- **Rule application levels are fixed** (see `.claude/docs/decisions.md`, items 7–15): storage-level rules mutate the value; matching-only rules affect the canonical key only; URL normalization touches only RFC 3986-safe or explicitly spec-mandated parts.
 
 ## Architectural concepts
 

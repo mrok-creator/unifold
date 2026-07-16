@@ -8,21 +8,20 @@ Planning and task decomposition (brainstorming, design docs, writing-plans, suba
 - **`CLAUDE.md` stays minimal** — only what is not derivable from code. Durable facts → `.claude/docs/`.
 - **Read narrowly.** Open the target module + its `shared` deps + one reference feature, not the whole tree.
 
-## `.claude/docs/` is the living knowledge base (auto-generated)
+## `.claude/docs/` is the living knowledge base
 
-**Important:** `.claude/docs/` is created and maintained by the `sync-context` skill during implementation. Before implementation starts (scaffold stage), this directory is empty.
-
-Generated during implementation (part of Definition of Done):
+Maintained by the `sync-context` skill (or manually as part of Definition of Done):
 
 - `module-map.md` — structure / module change
 - `decisions.md` — architectural or process decision (append-only)
 - `unicode-notes.md` — data-pipeline / Unicode change
 
-**Planning inputs** live in `.dev/` (gitignored):
+**Planning artifacts** live in `.dev/` (gitignored):
 
-- `.dev/requirements.md` — domain spec
-- `.dev/GOALS.md`, `.dev/IMPLEMENTATION-PLAN.md` — planning artifacts
-- `.dev/early-decisions.md`, `.dev/unicode-notes.md` — brainstorm inputs
+- `.dev/BACKLOG.md` — deferred TBDs, review findings, release checklist (the single "what's not done" list)
+- `.dev/plans/` — implementation plans written by `superpowers:writing-plans`
+
+There is no pre-written domain spec: new work starts with `superpowers:brainstorming`, seeded by `.dev/BACKLOG.md` and `.claude/docs/decisions.md`.
 
 ## When to add which config
 
