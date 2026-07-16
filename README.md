@@ -1,6 +1,6 @@
-# @scope/uninorm
+# unifold
 
-> **Pre-release placeholder name.** `@scope/uninorm` is a scaffold name — replace it with the real npm scope/package name before publishing.
+> **Pre-release placeholder name.** `unifold` is a scaffold name — replace it with the real npm scope/package name before publishing.
 
 Zero-dependency, fully typed Unicode normalization for a data-intake / deduplication pipeline: sanitize strings for storage, build ephemeral matching keys, safely normalize URLs, and flag mixed-script ("homoglyph") domains.
 
@@ -12,9 +12,9 @@ Zero-dependency, fully typed Unicode normalization for a data-intake / deduplica
 ## Install
 
 ```sh
-pnpm add @scope/uninorm
+pnpm add unifold
 # or
-npm install @scope/uninorm
+npm install unifold
 ```
 
 ## Modules
@@ -24,7 +24,7 @@ npm install @scope/uninorm
 Applies, in order: Cyrillic→Latin homoglyph folding, BOM removal, control-character→space replacement, zero-width-character removal, trim, and space-run collapsing. Returns the cleaned value plus an audit trail — this is the value you persist.
 
 ```ts
-import { sanitize } from '@scope/uninorm';
+import { sanitize } from 'unifold';
 
 sanitize('﻿ Offer  A ');
 // { value: 'Offer A', changed: true, changes: [...] }
@@ -35,7 +35,7 @@ sanitize('﻿ Offer  A ');
 Everything `sanitize` does, plus case folding, dash/underscore/typographic-quote unification, and NBSP folding. Returns a plain `string` — never persist this, it's for comparison only.
 
 ```ts
-import { canonicalKey } from '@scope/uninorm';
+import { canonicalKey } from 'unifold';
 
 canonicalKey('Offer-A') === canonicalKey('offer_a'); // true
 ```
@@ -45,7 +45,7 @@ canonicalKey('Offer-A') === canonicalKey('offer_a'); // true
 Applies only transforms that are RFC 3986-safe or explicitly spec-mandated (duplicate-slash collapse in paths): trim + invisible-character removal, scheme/host lowercasing, default-port stripping, percent-encoding hex uppercasing (path only), and duplicate-slash collapsing (path only). Malformed input is returned as-is (with the safe text cleanups applied) — this function never throws.
 
 ```ts
-import { normalizeUrl } from '@scope/uninorm';
+import { normalizeUrl } from 'unifold';
 
 normalizeUrl('HTTP://Example.COM:80//a?utm=x');
 // { value: 'http://example.com/a?utm=x', changed: true, changes: [...] }
@@ -56,7 +56,7 @@ normalizeUrl('HTTP://Example.COM:80//a?utm=x');
 Flags a host whose letters mix scripts (e.g. Cyrillic look-alikes inside a Latin domain — `pаypal.com` vs `paypal.com`). Detection only: the host is never rewritten, because auto-fixing risks breaking a legitimate domain.
 
 ```ts
-import { suspiciousDomain } from '@scope/uninorm';
+import { suspiciousDomain } from 'unifold';
 
 suspiciousDomain('pаypal.com');
 // { host: 'pаypal.com', suspicious: true, reason: 'mixed-script', scripts: ['latin', 'cyrillic'] }
@@ -105,7 +105,7 @@ suspiciousDomain('pаypal.com');
 All public types are named exports re-exported from the package root, so consumers can type their own code against them instead of redeclaring shapes:
 
 ```ts
-import type { NormalizationResult, SuspiciousDomainResult } from '@scope/uninorm';
+import type { NormalizationResult, SuspiciousDomainResult } from 'unifold';
 
 function persist(result: NormalizationResult): void {
   // result.value / result.changed / result.changes are fully typed

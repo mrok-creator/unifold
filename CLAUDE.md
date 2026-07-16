@@ -48,4 +48,4 @@ On a clean clone: `pnpm install`, then `pnpm verify` — green. The API report a
 
 ## Pre-release (manual, owner-only)
 
-Package name is a placeholder (`@scope/uninorm`). The release checklist lives in `.dev/BACKLOG.md`.
+Package name: `unifold` (npm). The release checklist lives in `.dev/BACKLOG.md`.

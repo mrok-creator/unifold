@@ -1,5 +1,5 @@
 {
-  "name": "@scope/uninorm",
+  "name": "unifold",
   "version": "0.0.0",
   "description": "Zero-dependency Unicode normalization for storage sanitize, canonical matching keys and safe URL normalization.",
   "type": "module",
