@@ -1,6 +1,6 @@
 {
   "name": "unifold",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Zero-dependency Unicode normalization for data intake: string sanitizing with an audit trail, canonical matching keys, RFC 3986-safe URL normalization, and mixed-script (homoglyph) domain detection.",
   "type": "module",
   "license": "MIT",
