@@ -1,9 +1,16 @@
 {
   "name": "unifold",
   "version": "0.0.0",
-  "description": "Zero-dependency Unicode normalization for storage sanitize, canonical matching keys and safe URL normalization.",
+  "description": "Zero-dependency Unicode normalization for data intake: string sanitizing with an audit trail, canonical matching keys, RFC 3986-safe URL normalization, and mixed-script (homoglyph) domain detection.",
   "type": "module",
   "license": "MIT",
+  "author": "Oleksandr Kasianenko <sanekkas@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrok-creator/unifold.git"
+  },
+  "homepage": "https://github.com/mrok-creator/unifold#readme",
+  "bugs": "https://github.com/mrok-creator/unifold/issues",
   "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=20"
