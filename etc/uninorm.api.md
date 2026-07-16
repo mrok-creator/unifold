@@ -5,6 +5,9 @@
 ```ts
 
 // @public
+export function canonicalKey(input: string): string;
+
+// @public
 export interface NormalizationChange {
     // (undocumented)
     readonly after: string;
@@ -26,10 +29,19 @@ export interface NormalizationResult {
 }
 
 // @public
+export function normalizeUrl(input: string): NormalizationResult;
+
+// @public
 export type RuleId = SanitizeRuleId | UrlRuleId;
 
 // @public
+export function sanitize(input: string): NormalizationResult;
+
+// @public
 export type SanitizeRuleId = 'homoglyph' | 'bom' | 'control' | 'zero-width' | 'trim' | 'collapse-spaces';
+
+// @public
+export function suspiciousDomain(host: string): SuspiciousDomainResult;
 
 // @public
 export interface SuspiciousDomainResult {
