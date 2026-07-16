@@ -30,7 +30,7 @@ sanitize('﻿ Offer  A ');
 
 ### `canonicalKey` — matching-only key
 
-Everything `sanitize` does, plus case folding, dash/underscore/typographic-quote unification, and NBSP folding. Returns a plain `string` — never persist this, it's for comparison only.
+Everything `sanitize` does, plus case folding and separator unification: general punctuation, dashes of all kinds, quotes of all kinds, underscore and NBSP all fold to a single space, so stylistic variants of one name converge to one key. Returns a plain `string` — never persist this, it's for comparison only.
 
 ```ts
 import { canonicalKey } from '@mrok-creator/unifold';
@@ -78,7 +78,7 @@ suspiciousDomain('pаypal.com');
 | 5     | `trim`            | Trims leading/trailing whitespace.                                                                        |
 | 6     | `collapse-spaces` | Collapses runs of ASCII spaces (U+0020) to a single space; NBSP is never collapsed.                       |
 
-`canonicalKey` runs all six of the above, then folds NBSP and the spec's separator punctuation to a space — general punctuation (`. , ; : ! ? ( ) [ ] { } / \\ | @ # $ % ^ & * + = ~`), underscore, dashes of all kinds and quotes of all kinds — then case-folds, before a final trim + collapse. Stylistic variants of one name converge to a single key; characters outside the separator set pass through unchanged.
+`canonicalKey` runs all six of the above, then folds NBSP and the spec's separator punctuation to a space — general punctuation (`. , ; : ! ? ( ) [ ] { } / \ | @ # $ % ^ & * + = ~`), underscore, dashes of all kinds and quotes of all kinds — then case-folds, before a final trim + collapse. Stylistic variants of one name converge to a single key; characters outside the separator set pass through unchanged.
 
 ### `normalizeUrl` rule order
 
@@ -115,4 +115,4 @@ Full type surface: `NormalizationResult`, `NormalizationChange`, `SanitizeRuleId
 
 ## Status
 
-0.1.0 release candidate — all four modules (`sanitize`, `canonicalKey`, `normalizeUrl`, `suspiciousDomain`) are implemented, tested (100% statement/function/line coverage, ≥95% branch), and reviewed. See `.claude/docs/` for the module map, architectural decision log, and Unicode data notes.
+Published on npm. All four modules (`sanitize`, `canonicalKey`, `normalizeUrl`, `suspiciousDomain`) are implemented, tested (100% coverage on all four metrics), and reviewed. See `CHANGELOG.md` for releases and `.claude/docs/` for the module map, architectural decision log, and Unicode data notes.
