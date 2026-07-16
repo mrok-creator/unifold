@@ -20,7 +20,7 @@ Plans produced by `superpowers:writing-plans` go to `.dev/plans/` (gitignored). 
 ## Modules (one-liner each)
 
 - `sanitize` — storage-level string cleanup, returns `{ value, changed, changes }`. Order: homoglyph → BOM → control → zero-width → trim → collapse-spaces.
-- `canonical-key` — matching-only key builder, returns `string`. sanitize folds + case fold + punctuation/underscore/NBSP.
+- `canonical-key` — matching-only key builder, returns `string`. sanitize folds + case fold + ALL separator punctuation/dashes/quotes/underscore/NBSP → space (decisions.md #20).
 - `url` — RFC 3986-safe URL normalization, returns `{ value, changed, changes }`. Never touches query/fragment/www; opaque-scheme bodies get scheme lowercasing only.
 - `suspicious-domain` — flags mixed-script hosts (host as-given, punycode not decoded), returns a flag. Never auto-fixes.
 - `shared` — cross-cutting helpers (folds, rule pipeline, script detection, confusables accessor). The only module domain modules may import from.

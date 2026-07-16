@@ -36,6 +36,7 @@ Everything `sanitize` does, plus case folding, dash/underscore/typographic-quote
 import { canonicalKey } from '@mrok-creator/unifold';
 
 canonicalKey('Offer-A') === canonicalKey('offer_a'); // true
+canonicalKey('“Acme”–Co Ltd') === canonicalKey('Acme.Co Ltd'); // true → 'acme co ltd'
 ```
 
 ### `normalizeUrl` — RFC 3986-safe URL normalization
@@ -77,7 +78,7 @@ suspiciousDomain('pаypal.com');
 | 5     | `trim`            | Trims leading/trailing whitespace.                                                                        |
 | 6     | `collapse-spaces` | Collapses runs of ASCII spaces (U+0020) to a single space; NBSP is never collapsed.                       |
 
-`canonicalKey` runs all six of the above, then adds case folding, dash/underscore-to-space folding, and typographic-quote-to-straight-quote folding, in that order, before a final trim + collapse.
+`canonicalKey` runs all six of the above, then folds NBSP and the spec's separator punctuation to a space — general punctuation (`. , ; : ! ? ( ) [ ] { } / \\ | @ # $ % ^ & * + = ~`), underscore, dashes of all kinds and quotes of all kinds — then case-folds, before a final trim + collapse. Stylistic variants of one name converge to a single key; characters outside the separator set pass through unchanged.
 
 ### `normalizeUrl` rule order
 
